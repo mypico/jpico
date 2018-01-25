@@ -1,0 +1,3 @@
+-TestRunner
+-org.mypico.jpico.comms.org.apache.commons.codec.*
+-org.mypico.jpico.test.*

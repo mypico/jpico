@@ -1,0 +1,29 @@
+apply plugin: 'java'
+
+dependencies {
+	compile fileTree(dir: 'lib', include: '*.jar')
+}
+
+compileJava {
+	targetCompatibility = '1.7'
+	sourceCompatibility = '1.7'
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src', 'libsrc']
+		}
+	}
+}
+
+javadoc {
+	title = "JPico API"
+	classpath = configurations.compile
+	options {
+		tags = [ "attr" ]
+		showFromPublic()
+		stylesheetFile = new File(projectDir, "assets/stylesheet.css");
+	}
+	failOnError false
+}
