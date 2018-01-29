@@ -1,0 +1,69 @@
+<html>
+<body>
+<b>jPico</b> is a Java implementation of the core functionality needed to write Pico apps and services.
+
+<style>
+.fragment {
+	border: 1px solid grey;
+	padding: 4px;
+}
+</style>
+
+<p /><h2>Summary</h2>
+
+<p />This manual documents the jpico library internal classes and methods. The jpico library can be used in any Java implementation of Pico or a Pico service. Its main use is currently in providing functionality for <a href="../android-pico">android-pico</a>, the Pico app for Android, which allows users to authenticate to Pico-enabled services.
+
+<p />This documentation provides technical details of all the code implemented in the jpico library. It's unlikely to be very useful for end users though.
+
+<p />Although jpico is a dependency of android-pico, the android-pico git repository has it configured as a submodule. Therefore, if you're just interested in building android-pico, you don't need to follow these instructions, you can just follow the instructions in the <a href="../android-pico">android-pico documentation</a>.
+
+<p /><h2>Documentation structure</h2>
+
+<p />The jpico code is split into Java packages, each of which encapsulates a particular type of functionality. Each package has the prefix <code>org.mypico.jpico</code>.
+
+<p />Inside each package you'll find different classes, each implementing more specific functionality. Click on one of the package names above or in the side-panel to filter its contents. Then click on one of the interfaces, exceptions, classes, etc. in the side-panel below it to find out more about it.
+
+<p /><h2>Building from source on Linux</h2>
+
+<p />You can build jpico on Windows, Linux, or any other platform with a JKD. Here we give details for how to build it on a Linux machine; building on Windows should be similar.
+
+<p />To build jpico you'll need to install a JDK, and and a few other dependencies:
+
+<ul>
+<li />git
+<li />ant
+<li />libhamcrest-java
+<li />libemma-java
+</ul>
+
+On Ubuntu 16.04, you can get these all in one go using the following command.
+
+<pre class="fragment">
+sudo apt install openjdk-8-jdk git ant libhamcrest-java libemma-java
+</pre>
+
+<p />Now ensure you've downloaded the latest version of the code from the git repository and are inside the project folder.
+
+<pre class="fragment">
+git clone git@github.com:mypico/jpico.git
+cd jpico
+</pre>
+
+<p />You can then build jpico at the command line using the following commands.
+
+<pre class="fragment">
+export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
+ant compileTest dist
+</pre>
+
+<p />This will leave an jar archive at <code>dist/lib/JPico.jar</code>. You can also build the documentation using the following command, which will leave the documentation in the <code>docs</code> directory.
+
+<pre class="fragment">
+javadoc -overview src/overview.html org.mypico.jpico -subpackages org.mypico.jpico -classpath src -package -stylesheetfile assets/stylesheet.css -d docs/javadoc;
+</pre>
+
+If you're using jpico with android-pico, it's already included as a submodule of android-pico and will be built automatically when you build android-pico.
+
+</body>
+</html>
+
