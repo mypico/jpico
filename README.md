@@ -10,6 +10,10 @@ For details on the internal classes and structure of the code, see:
 
 https://docs.mypico.org/developer/jpico/
 
+If you want to build all the Pico components from source in one go, without having to worry about the details, see:
+
+https://github.com/mypico/pico-build-all
+
 ## Install
 
 To build jpico you'll need to install a JDK, and and a couple of other dependencies:
