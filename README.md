@@ -55,3 +55,5 @@ The Pico project team at time of release:
  * Kat Krol
 
 You can get in contact with us at team@cambridgeauthentication.com
+
+We thank the European Research Council (ERC) for funding the Pico research through grant StG 307224 (Pico).
