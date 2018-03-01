@@ -95,6 +95,8 @@ final public class ContinuousProver implements Destroyable {
         ACTIVE, PAUSED, STOPPED, ERROR
     }
 
+    private final static int DEFAULT_TIMEOUT_LEEWAY = 5000;
+
     public interface ProverStateChangeNotificationInterface {
 
         public void sessionPaused(final Session session);
@@ -130,6 +132,7 @@ final public class ContinuousProver implements Destroyable {
 
     private State state = State.ACTIVE;
     private int requestedTimeout;
+    private int timeoutLeeway;
     private final Session session;
     private final IContinuousVerifier serviceInterface;
     private final ProverStateChangeNotificationInterface proverStateChangeNotificationInterface;
@@ -196,6 +199,7 @@ final public class ContinuousProver implements Destroyable {
         this.schedulerInterface = checkNotNull(schedulerInterface);
         this.picoSequenceNumber = checkNotNull(currentSequenceNumber);
         this.serviceSequenceNumber = null;
+        this.timeoutLeeway = DEFAULT_TIMEOUT_LEEWAY;
         pollServiceExecutor.execute(new PollService(this));
     }
 
@@ -381,7 +385,7 @@ final public class ContinuousProver implements Destroyable {
                 if (state != State.ERROR) {
                     LOGGER.info("Success, updating sequence number " + c3.toString());
                     this.serviceSequenceNumber = c3;
-                    this.requestedTimeout = serviceReauthMessage.getTimeout();
+                    this.requestedTimeout = Math.max(serviceReauthMessage.getTimeout() - this.timeoutLeeway, 0);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -492,4 +496,16 @@ final public class ContinuousProver implements Destroyable {
         return isDestroyed;
     }
 
+    /**
+     * Set the leeway allowed for messages to be sent over the channel. The Pico receives the
+     * timeout from the service, and the Pico must reply before this time expires. The Pico
+     * will subtract the leeway from this time and use the resulting duration to send its
+     * message.
+     *
+     * @param timeoutLeeway The leeway time allowed for sending messages between the Pico and
+     *                      service.
+     */
+    public void setTimeoutLeeway(int timeoutLeeway) {
+        this.timeoutLeeway = timeoutLeeway;
+    }
 }
